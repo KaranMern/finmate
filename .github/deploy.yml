@@ -1,0 +1,80 @@
+name: finmate CI/CD
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  JAVA_VERSION: "17"
+  FLUTTER_VERSION: "3.35.4"
+
+jobs:
+  build:
+    name: Build Flutter App and Distribute to Firebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #      - name: Set up Java
+      #        uses: actions/setup-java@v3
+      #        with:
+      #          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
+
+      - name: Decode and save Firebase service account
+        run: |
+          echo "${{ secrets.FIREBASE_CREDENTIALS }}" > firebase_credentials.json
+
+      - name: Create local.properties
+        run: |
+          echo "signIn.file=my-release-key.jks" > android/local.properties
+          echo "signIn.storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/local.properties
+          echo "signIn.keyAlias=${{ secrets.KEY_ALIAS }}" >> android/local.properties
+          echo "signIn.keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/local.properties
+
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --flavor prod --target lib/Flavour/Flavour_prod.dart --release
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          file: build/app/outputs/apk/prod/release/app-prod-release.apk
+          groups: sampleTest
+          releaseNotes: |
+            ✅ New Features:
+            - With Flutter map implementation
+
+#      - name: Send email notification
+#        if: ${{ success() }}
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: smtp.gmail.com
+#          server_port: 465
+#          username: ${{ secrets.EMAIL_USERNAME }}
+#          password: ${{ secrets.EMAIL_PASSWORD }}
+#          subject: "✅ CI/CD Success: Sample Connect"
+#          to: karanvkp2015@gmail.com,sivabala.piramuthu@gmail.com
+#          from: Flutter CI/CD
+#          body: |
+#            Hello Team,
+#            🎉 The CI/CD workflow for the `main` branch completed **successfully**.
+#            📦 APK built and uploaded to Firebase App Distribution.
+#            Regards,
+#            GitHub CI/CD Bot
