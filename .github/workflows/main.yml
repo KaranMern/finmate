@@ -28,7 +28,7 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - name: Decode Keystore
+      - name: Decode and save JKS keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
 
@@ -38,7 +38,8 @@ jobs:
 
       - name: Create local.properties
         run: |
-          echo "signIn.file=my-release-key.jks" > android/local.properties
+          echo "signIn.file=$GITHUB_WORKSPACE/android/app/my-release-key.jks" >> android/local.properties
+          echo "signIn.file=$GITHUB_WORKSPACE/android/app/my-release-key.jks" >> android/local.properties
           echo "signIn.storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/local.properties
           echo "signIn.keyAlias=${{ secrets.KEY_ALIAS }}" >> android/local.properties
           echo "signIn.keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/local.properties
