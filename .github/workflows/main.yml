@@ -58,7 +58,7 @@ jobs:
           file: build/app/outputs/flutter-apk/app-release.apk
           groups: sample
           releaseNotes: |
-            ✅ New Features:
+            ✅  New Features:
             - With Flutter map implementation
 
 #      - name: Send email notification
