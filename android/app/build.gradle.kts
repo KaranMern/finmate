@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -7,10 +10,15 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
-val keystoreProperties = java.util.Properties()
-val keystorePropertiesFile = rootProject.file("local.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(java.io.FileInputStream(keystorePropertiesFile))
+val keystoreProperties = new Properties()
+val androidKeyFile = rootProject.file("android/local.properties")
+val rootKeyFile = rootProject.file("local.properties")
+if (androidKeyFile.exists()) {
+    keystoreProperties.load(new FileInputStream(androidKeyFile))
+    println "✅ Keystore file loaded successfully from android directory."
+} else if (rootKeyFile.exists()) {
+    keystoreProperties.load(new FileInputStream(rootKeyFile))
+    println "✅ Keystore file loaded successfully from root directory."
 }
 
 android {
