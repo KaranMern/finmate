@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "signIn.file=my-release-key.jks" > android/local.properties
           echo "signIn.storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/local.properties
-          echo "signIn.keyAliase=${{ secrets.KEY_ALIAS }}" >> android/local.properties
+          echo "signIn.keyAlias=${{ secrets.KEY_ALIAS }}" >> android/local.properties
           echo "signIn.keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/local.properties
 
 
