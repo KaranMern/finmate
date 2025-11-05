@@ -48,15 +48,15 @@ jobs:
         run: flutter pub get
 
       - name: Build release APK
-        run: flutter build apk --flavor prod --target lib/Flavour/Flavour_prod.dart --release
+        run: flutter build apk --release
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           token: ${{ secrets.FIREBASE_TOKEN }}
-          file: build/app/outputs/apk/prod/release/app-prod-release.apk
-          groups: sampleTest
+          file: build/app/outputs/apk/app-release.apk
+          groups: sample
           releaseNotes: |
             ✅ New Features:
             - With Flutter map implementation
