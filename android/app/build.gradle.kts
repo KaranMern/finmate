@@ -45,7 +45,7 @@ android {
         create("release") {
             storeFile = file(keystoreProperties["signIn.file"]?.toString() ?: "")
             storePassword = keystoreProperties["signIn.storePassword"]?.toString() ?: ""
-            keyAlias = keystoreProperties["signIn.keyAliase"]?.toString() ?: ""
+            keyAlias = keystoreProperties["signIn.keyAlias"]?.toString() ?: ""
             keyPassword = keystoreProperties["signIn.keyPassword"]?.toString() ?: ""
         }
     }
