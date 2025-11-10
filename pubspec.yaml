@@ -40,12 +40,14 @@ dependencies:
   firebase_core: ^4.2.0
   firebase_auth: ^6.1.1
   google_sign_in: ^6.1.0
+  background_fetch: ^1.0.0
   flutter_local_notifications: ^19.5.0
   timezone: ^0.10.1
   open_file: ^3.5.10
   flutter_launcher_icons: ^0.14.4
   firebase_messaging: ^16.0.3
   cloud_firestore: ^6.0.3
+  permission_handler: ^12.0.1
   connectivity_plus: ^7.0.0
   fluttertoast: ^9.0.0
 

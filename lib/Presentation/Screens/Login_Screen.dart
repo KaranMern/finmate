@@ -2,6 +2,7 @@ import 'package:finmate/Presentation/Screens/Dashbaord.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Constants/Image_Constants.dart';
 import '../../Constants/String_Constant.dart';
@@ -140,6 +141,7 @@ class _LoginAndSignUpScreenState extends State<LoginAndSignUpScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Homescreen()));
                       }
                       else{
+                        Fluttertoast.showToast(msg: "Sign in Failed");
                         return;
                       }
                     },

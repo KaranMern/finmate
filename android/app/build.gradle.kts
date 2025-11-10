@@ -66,5 +66,6 @@ flutter {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.datatransport:transport-api:4.0.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }
