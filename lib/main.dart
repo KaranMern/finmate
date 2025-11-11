@@ -5,14 +5,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart' as PermissionManager;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'Notification/LocalNotification.dart';
 import 'Notification/PushNotification.dart';
+import 'Presentation/Screens/AutoLogin.dart';
 import 'Presentation/Screens/Login_Screen.dart';
+import 'base/LocalDB/DB.dart';
 import 'firebase_options.dart';
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
+late final Database localDB;
 final GlobalKey<NavigatorState> navigatorsKey = GlobalKey<NavigatorState>();
 @pragma('vm:entry-point')
 void backgroundFetchHeadlessTask(bg.HeadlessTask task) async {
@@ -54,6 +58,7 @@ Future<void> main() async {
   String? token = await messaging.getToken();
   print("Tokennnnnnnnnnnnnnnnnnnn");
   print(token);
+  localDB = await DBHelper().database;
   bg.BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 
   await bg.BackgroundFetch.configure(
@@ -72,6 +77,10 @@ Future<void> main() async {
     (String taskId) async {
       print("[FOREGROUND] Event received: $taskId");
       try {
+        await LocalNotification.showInstantNotification(
+          title: "Background Fetch",
+          body: "Success",
+        );
         // await BudgetCRUD().checkBudget(localDB, auth.currentUser!.uid);
       } catch (e) {
         print("[FOREGROUND] Error: $e");
@@ -80,6 +89,10 @@ Future<void> main() async {
     },
     (String taskId) async {
       print("[TIMEOUT] $taskId");
+      await LocalNotification.showInstantNotification(
+        title: "Background Fetch",
+        body: "Success",
+      );
       // await BudgetCRUD().checkBudget(localDB, auth.currentUser!.uid);
       bg.BackgroundFetch.finish(taskId);
     },
@@ -96,7 +109,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        home: LoginAndSignUpScreen(),
+        home: Autologin(),
       ),
     );
   }
