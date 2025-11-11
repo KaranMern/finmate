@@ -2,7 +2,7 @@ import 'package:finmate/Presentation/widgets/CommonScaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../Constants/String_Constant.dart';
-import 'CustomNavBar.dart';
+import '../widgets/CustomNavBar.dart';
 import 'Dashbaord.dart';
 import 'History.dart';
 import 'Login_Screen.dart';

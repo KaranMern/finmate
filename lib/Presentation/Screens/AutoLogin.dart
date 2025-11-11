@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../base/CRUD/User_CRUD.dart';
+import 'HomeScreen.dart';
 
 class Autologin extends StatefulWidget {
   const Autologin({super.key});
@@ -29,13 +30,11 @@ class _AutologinState extends State<Autologin> {
   Autologin() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       final data = await UserModel().getUser(localDB);
-      print("dataaaaaaaaaaa");
-      print(data);
       if (user!=null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => DashboardScreen(),
+            builder: (BuildContext context) => Homescreen(),
           ),
         );
       }
